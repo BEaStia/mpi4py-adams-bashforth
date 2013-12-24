@@ -98,7 +98,7 @@ def Adams3MPI(startT,endT,h,args):
                 obj = comm.recv(source=i, tag=tag)
                 var_set[i] = obj
             result.append(var_set)
-#        comm.Barrier()
+        comm.Barrier()
 
     if(rank==0):
         return result
