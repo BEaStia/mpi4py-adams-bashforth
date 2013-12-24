@@ -77,12 +77,12 @@ def Adams3MPI(startT,endT,h,args):
             if(size<len(prev_args)):
                 vars_for_main = range(size,len(prev_args))
         prev_args = comm.bcast(prev_args,root=0)
-        print("prev_args:",prev_args)
+        #print("prev_args:",prev_args)
         val = prev_args[-1][rank]+(23*func_new(prev_args[-1],rank)-16*func_new(prev_args[-2],rank)+5*func_new(prev_args[-3],rank))/12*h
-        print "at rank ",rank,' number',val
+        #print "at rank ",rank,' number',val
         if rank!=0:
             tag = 10+rank
-            print("sending from ",rank," with tag:",tag,val)
+            #print("sending from ",rank," with tag:",tag,val)
             comm.send(val,dest=0,tag=tag)
         if rank==0:
             var_set[rank] = val
@@ -90,10 +90,10 @@ def Adams3MPI(startT,endT,h,args):
                 for i in vars_for_main :
                     val = prev_args[-1][i] + (23*func_new(prev_args[-1],i)-16*func_new(prev_args[-2],i)+5*func_new(prev_args[-3],i))/12*h
                     var_set[i] = val
-            else:
-                print("Without any unefficient threads")
+            #else:
+                #print("Without any unefficient threads")
             for i in range(1,size):
-                print("waiting from ",i," with tag:",i+10)
+                #print("waiting from ",i," with tag:",i+10)
                 tag = i+10
                 obj = comm.recv(source=i, tag=tag)
                 var_set[i] = obj
